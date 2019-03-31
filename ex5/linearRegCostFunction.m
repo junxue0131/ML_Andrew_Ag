@@ -30,12 +30,28 @@ J = l + J;
 
 
 
+%add = (1 / m) * sum((h - y) .* X(:, 1));
 
-add = (1 / m) * sum((h - y) .* X(:, 1));
+%if size(X, 2) == 2,
+%    grad = (1 / m) * sum((h - y) .* X(:, 2)) + sum((lambda / m) .* theta(2:end));
+%end
 
-grad = (1 / m) * sum((h - y) .* X(:, 2)) + sum((lambda / m) .* theta(2:end));
+%if size(X, 2) > 2,
 
-grad = [add;grad];
+ %   for i = 2:size(X, 2),
+  %      grad(i - 1) = (1 / m) * sum((h - y) .* X(:, i)) + sum((lambda / m) .* theta(2:end));
+   % end
+
+%end
+
+%grad = [add;grad]
+
+
+temp = theta;
+
+temp(1, 1) = 0;
+
+grad = (1 / m) * sum((h - y) .* X) + lambda / m * temp'; %!!!!!!!!!
 
 
 
